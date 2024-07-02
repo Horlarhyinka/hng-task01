@@ -7,6 +7,6 @@ export default async(city: string)=>{
     const temperature = weatherResponse.data.main.temp;
     return temperature
     }catch(err){
-        console.log("failed to get temperature")
+        throw err
     }
 }

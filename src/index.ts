@@ -27,11 +27,15 @@ app.get("/", async(req: Request, res: Response)=>{
     const {visitor_name } = req.query
     if(!visitor_name)return res.status(400).json({message: "visitor_name is required"})
     
-    const client_ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    const locationInfo = await getLocation(client_ip!.toString())
-    const temperature = await getTemp(locationInfo.city)
-    const greeting = `Hello, ${visitor_name}!, the temperature is ${temperature} degrees Celcius in ${locationInfo.city}`
-    return res.status(200).json({client_ip, location: locationInfo.city, greeting})
+    const client_ip = req.socket.remoteAddress;
+    try{
+        const locationInfo = await getLocation(client_ip!.toString())
+        const temperature = await getTemp(locationInfo.city)
+        const greeting = `Hello, ${visitor_name}!, the temperature is ${temperature} degrees Celcius in ${locationInfo.city}`
+        return res.status(200).json({client_ip, location: locationInfo.city, greeting})
+    }catch(err: any){
+        const message = err.message || `failed to fetch location and temperature for ip ${client_ip}`
+    }
 })
 
 function start(){
