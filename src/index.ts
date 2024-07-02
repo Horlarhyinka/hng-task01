@@ -35,6 +35,7 @@ app.get("/", async(req: Request, res: Response)=>{
         return res.status(200).json({client_ip, location: locationInfo.city, greeting})
     }catch(err: any){
         const message = err.message || `failed to fetch location and temperature for ip ${client_ip}`
+        return res.status(400).json({message})
     }
 })
 
