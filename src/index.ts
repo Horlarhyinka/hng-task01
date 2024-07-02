@@ -10,11 +10,11 @@ import getTemp from "./utils/get-temp"
 const app = express()
 
 
-const limiter = rateLimit({
-	windowMs: 15 * 60 * 1000,
-	limit: 100,
-	legacyHeaders: false,
-})
+//const limiter = rateLimit({
+//	windowMs: 15 * 60 * 1000,
+//	limit: 100,
+//	legacyHeaders: false,
+//})
 
 app.use(limiter)
 app.use(cors({ origin: "*"}))
